@@ -8,21 +8,22 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private float _fireRate = 0.5f;
     private float _nextFireTime = 0.0f;
+    [SerializeField] private int _lives = 3;
 
     // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
         transform.position = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
         CalculateMovement();
         ShootLasers();
     }
 
-    private void CalculateMovement()
+    void CalculateMovement()
     {
         Vector3 directionVector = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
         );
     }
 
-    private void ShootLasers()
+    void ShootLasers()
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFireTime)
         {
@@ -47,4 +48,14 @@ public class Player : MonoBehaviour
             );
         }
     }
+
+    public void Damage()
+    {
+        _lives--;
+        if (_lives < 1)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    
 }
